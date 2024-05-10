@@ -3,13 +3,23 @@
 
 #include "token.h"
 #include "error_codes.h"
+#include <stdint.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
 typedef struct
 {
   char* buf;
-  int buf_i;
-  Token* tokens;
-  int numTokens;
+  uint32_t buf_i;
+  uint32_t buf_size;
+
+  char c;
+  
+  Token*   tokens;
+  uint32_t numTokens;
 
 } Lexer;
 

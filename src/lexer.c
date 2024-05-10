@@ -1,13 +1,10 @@
 #include "lexer.h"
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 /**
- * @brief Takes in a raw char buffer from an input file
+ * @brief Takes in a raw uint8_t buffer from an input file
  *              and spits out a tokenized buffer from the input
  *
- * @param buf - Pointer to the buffer of raw chars from input file
+ * @param buf - Pointer to the buffer of raw uint8_ts from input file
  *
  * @return Token pointer to a buffer of tokens for parsing
  */
@@ -19,7 +16,7 @@ Token* lexer_exec (char* buf) {
 
   if (lex_err != LEXER_SUCCESS) {
     fprintf(stderr, "%s: [%s]: Lexer Error Code %d\n", 
-      __FILE__, __FUNCTION__, (int)lex_err);
+      __FILE__, __FUNCTION__, (uint32_t)lex_err);
   }
 
   Token* tokens = lex->tokens;
@@ -39,6 +36,8 @@ Lexer* create_lexer (char* buf) {
   lex->buf_i = 0;
   lex->buf = buf;
   lex->numTokens = 0;
+  lex->buf_size = strlen(buf);
+  lex->c = buf[lex->buf_i];
 
   return lex;
 }
@@ -59,9 +58,22 @@ void free_lexer (Lexer* lex) {
   
 }
 
-/// @brief 
-/// @param lex 
-/// @return 
+/**
+ * @brief Entry point for 
+ *
+ * @param lex - pointer to Lexer object
+ *
+ * @return LexerErrorCode - see error_codes.h
+ */
 LexerErrorCode lexer_create_tokens (Lexer* lex) {
 
+  LexerErrorCode retCode = LEXER_SUCCESS;
+
+  for (uint32_t i = 0; i < lex->buf_size; ++i) {
+    if (isalpha(lex->c)) {
+      
+    }
+  }
+
+  return retCode;
 }

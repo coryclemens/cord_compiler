@@ -4,7 +4,6 @@
 typedef enum {
   LEXER_SUCCESS,
   
-
   LEXER_ENUM_ERRORS
 } LexerErrorCode;
 
