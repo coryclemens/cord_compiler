@@ -55,13 +55,19 @@ void free_lexer (Lexer* lex) {
   lex->buf = NULL;
   /* Don't free tokens, need to pass it to parser. Still assign NULL ? */
   lex->tokens = NULL;
-  free(lex);
-  
+  free(lex); 
 }
 
-/// @brief 
-/// @param lex 
-/// @return 
+/**
+ * @brief Entry point for token creation
+ *
+ * @param lex - pointer to Lexer object
+ *
+ * @return LexerErrorCode - see error_codes.h
+ */
 LexerErrorCode lexer_create_tokens (Lexer* lex) {
 
+  lex->buf;
+  
+  return LEXER_SUCCESS;
 }
