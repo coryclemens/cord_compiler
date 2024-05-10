@@ -15,17 +15,21 @@ typedef struct
   char* buf;
   uint32_t buf_i;
   uint32_t buf_size;
-
-  char c;
   
   Token*   tokens;
   uint32_t numTokens;
 
 } Lexer;
 
-Token* lexer_exec   (char* buf);
-Lexer* create_lexer (char* buf);
-void   free_lexer   (Lexer* lex);
-LexerErrorCode lexer_create_tokens(Lexer* lex);
+Token* lexer_exec  (char* buf);
+Lexer* lexer_alloc (char* buf);
+void   lexer_free  (Lexer* lex);
+
+LexerErrorCode lexer_create_tokens (Lexer* lex);
+void lexer_parse_for_id (Lexer* lex);
+void lexer_parse_for_digit (Lexer* lex);
+
+char lexer_peek_ahead (Lexer* lex, uint32_t offset);
+void lexer_advance (Lexer* lex);
 
 #endif

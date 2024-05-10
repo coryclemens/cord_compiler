@@ -10,7 +10,7 @@
  */
 Token* lexer_exec (char* buf) {
 
-  Lexer* lex = create_lexer(buf);
+  Lexer* lex = lexer_alloc(buf);
 
   LexerErrorCode lex_err = lexer_create_tokens(lex);
 
@@ -20,7 +20,7 @@ Token* lexer_exec (char* buf) {
   }
 
   Token* tokens = lex->tokens;
-  free_lexer(lex);
+  lexer_free(lex);
   return tokens;
 }
 
@@ -31,13 +31,12 @@ Token* lexer_exec (char* buf) {
  *
  * @return: Pointer to the Lexer object
  */
-Lexer* create_lexer (char* buf) {
+Lexer* lexer_alloc (char* buf) {
   Lexer* lex = (Lexer*) calloc(sizeof(Lexer), 1);
   lex->buf_i = 0;
   lex->buf = buf;
   lex->numTokens = 0;
   lex->buf_size = strlen(buf);
-  lex->c = buf[lex->buf_i];
 
   return lex;
 }
@@ -49,7 +48,7 @@ Lexer* create_lexer (char* buf) {
  *
  * @return void
  */
-void free_lexer (Lexer* lex) {
+void lexer_free (Lexer* lex) {
   free(lex->buf);
   lex->buf = NULL;
   /* Don't free tokens, need to pass it to parser. Still assign NULL ? */
@@ -68,11 +67,44 @@ LexerErrorCode lexer_create_tokens (Lexer* lex) {
 
   LexerErrorCode retCode = LEXER_SUCCESS;
 
-  for (uint32_t i = 0; i < lex->buf_size; ++i) {
-    if (isalpha(lex->c)) {
-      
+  while (lex->buf_i < lex->buf_size) {
+
+    if (isalpha(lex->buf[lex->buf_i])) {
+       lexer_parse_for_id(lex);
+    }
+    else if (isdigit(lex->buf[lex->buf_i])) {
+
     }
   }
 
   return retCode;
+}
+
+
+void lexer_parse_for_id (Lexer* lex) {
+  char* buf;
+
+  while (isalnum(lex->buf[lex->buf_i])) {
+    buf = realloc()
+  }
+}
+
+char lexer_peek_ahead (Lexer* lex, uint32_t offset) {
+
+  if (( (lex->buf_i + offset) <= lex->buf_size) &&
+      ( lex->buf[lex->buf_i + offset] != '\0')) {
+    return lex->buf[lex->buf_i + offset];
+  }
+  else {
+    return (char)0;
+  }
+}
+
+
+void lexer_advance (Lexer* lex) {
+
+  if (( lex->buf_i < lex->buf_size) &&
+      ( lex->buf[lex->buf_i] != '\0')) {
+    (lex->buf_i)++;
+  }
 }

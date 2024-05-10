@@ -22,7 +22,7 @@ char* createBufFromFile(char* fileName) {
   if (fd != -1) {
     fstat(fd, &filestat);
     
-    printf("%s: [%s]: %d: File size is %lld\n", 
+    printf("%s: [%s]: %d: File size is %ld\n", 
       __FILE__, __FUNCTION__, __LINE__, filestat.st_size);
 
     bufSize = (long)filestat.st_size;
