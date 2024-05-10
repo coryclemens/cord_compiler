@@ -54,12 +54,11 @@ void free_lexer (Lexer* lex) {
   lex->buf = NULL;
   /* Don't free tokens, need to pass it to parser. Still assign NULL ? */
   lex->tokens = NULL;
-  free(lex);
-  
+  free(lex); 
 }
 
 /**
- * @brief Entry point for 
+ * @brief Entry point for token creation
  *
  * @param lex - pointer to Lexer object
  *
