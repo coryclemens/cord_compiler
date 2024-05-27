@@ -214,6 +214,7 @@ TokenErrorCode lexer_check_keyword_or_id (Lexer* lex, char* buf) {
 
     if (strcmp(buf, keyword_strings[TOKEN_EXIT]) == 0) {
       lexer_add_token(lex, TOKEN_EXIT, NULL);
+      free (buf);
     }
     else if (strcmp(buf, "int") == 0) {
       lexer_add_token(lex, TOKEN_TYPE, buf);
@@ -300,7 +301,8 @@ void lexer_free_token_strings (Lexer* lex) {
     if (keyword_strings[lex->tokens[i]->type] == NULL) {
       free(lex->tokens[i]->val);
     }
+    free(lex->tokens[i]);
   }
 
-  free(lex->tokens);
+  free (lex->tokens);
 }
