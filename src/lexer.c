@@ -286,7 +286,7 @@ void lexer_add_token (Lexer* lex, TokenType type, char* id) {
 
   Token* tok = new_token(type, id);
 
-  lex->tokens = realloc(lex->tokens, lex->numTokens);
+  lex->tokens = realloc(lex->tokens, (lex->numTokens * sizeof(Token*)));
 
   lex->tokens[lex->numTokens-1] = tok;
 }
@@ -294,12 +294,9 @@ void lexer_add_token (Lexer* lex, TokenType type, char* id) {
 void lexer_free_token_strings (Lexer* lex) {
 
   for (uint32_t i = 0; i < lex->numTokens; ++i) {
-    #if DEBUG
-      printf("%d ; %d: lex->tokens[i].type\n", i, lex->tokens[i]->type);
-    #endif
     /* If a keyword string is null, means we allocated space for 
        a non keyword string, so free it. If its a keyword or symbol, 
-       we just point to the string in keyword_strings */
+       we just point to the static string in keyword_strings */
     if (keyword_strings[lex->tokens[i]->type] == NULL) {
       free(lex->tokens[i]->val);
     }
