@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "debug.h"
 
 /**
  * create_lexer - Creates and initializes the lexer object.
@@ -22,18 +23,27 @@ char* createBufFromFile(char* fileName) {
   if (fd != -1) {
     fstat(fd, &filestat);
     
-    printf("%s: [%s]: %d: File size is %ld\n", 
+    #if DEBUG
+    printf("%s: [%s]: %d: File size is %lld\n", 
       __FILE__, __FUNCTION__, __LINE__, filestat.st_size);
+    #endif
 
     bufSize = (long)filestat.st_size;
 
     /* TODO: Error check this buffer size... fine for now */
-    src = calloc(bufSize+1, sizeof(char));
+    src = (char*)calloc(bufSize+1, sizeof(char));
 
     ssize_t fileRead = read(fd, src, (ssize_t)bufSize);
 
+    #if DEBUG
     printf("%s: [%s]: %d: Read %ld bytes\n", 
       __FILE__, __FUNCTION__, __LINE__, fileRead);
+    #endif
+
+    if (fileRead == 0) {
+      printf("%s: [%s]: %d: 0 bytes read from file!\n", 
+        __FILE__, __FUNCTION__, __LINE__);
+    }
 
     close(fd);
   }

@@ -3,11 +3,12 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 typedef enum {
   TOKEN_EXIT,
   TOKEN_TYPE,
-  TOKEN_ID_LITERAL,
+  TOKEN_ID,
   TOKEN_INT_LITERAL,
   TOKEN_EQUALS,
   TOKEN_SEMICOLON,
@@ -17,7 +18,16 @@ typedef enum {
   NUM_TOKEN_TYPES
 } TokenType;
 
-extern const char* keywords[NUM_TOKEN_TYPES];
+typedef enum {
+  TOKEN_ALPHANUM,
+  TOKEN_NUM,
+
+  NUM_GENERAL_TOKENS
+} GeneralTokenType;
+
+extern int (*char_check_func[NUM_GENERAL_TOKENS])(int);
+
+extern char *keyword_strings[NUM_TOKEN_TYPES];
 
 typedef struct
 {
@@ -26,6 +36,6 @@ typedef struct
   /* TODO: uint32_t lineNum; ? */
 } Token;
 
-char* build_token (char* buf, char c);
+Token* new_token (TokenType type, char *buf);
 
 #endif // !CORD_TOKEN_C

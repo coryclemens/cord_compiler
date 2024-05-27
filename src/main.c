@@ -1,26 +1,22 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "cord.h"
 #include "lexer.h"
 #include "file_util.h"
+#include "debug.h"
 
 int main(int argc, char**argv) {
 
-  char* str;
-
-  /* TODO: More checks.. check the file extension */
+  /* TODO:
+    - More checks.. check the file extension
+    - Allow -d debug flag
+   */
   if (argc < 3 || argc > 4) {
       fprintf(stderr, "[cord]: Usage: cord -f <filename>.crd\n");
       return -1;
   }
 
-  str = createBufFromFile(argv[2]);
-
-  printf("%s\n", str);
-
-  lexer_exec(str);
-
-  free(str);
-  str = NULL;
+  compile_cord_file(argv[2]);
 
   return 0;
 }

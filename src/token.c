@@ -1,6 +1,8 @@
 #include "token.h"
+#include <stdio.h>
+#include "debug.h"
 
-const char* keywords[NUM_TOKEN_TYPES] = {
+char* keyword_strings[NUM_TOKEN_TYPES] = {
   "exit",
   NULL,
   NULL,
@@ -11,9 +13,22 @@ const char* keywords[NUM_TOKEN_TYPES] = {
   ")"
 };
 
-char* build_token (char* buf, char c) {
-  buf = realloc(buf, 1*(sizeof(char) + 2));
-  strcat(buf, strcat(&c, "\0"));
+int (*char_check_func[NUM_GENERAL_TOKENS])(int) = {
+  isalnum,
+  isdigit,
+};
 
-  return buf;
+Token* new_token (TokenType type, char* buf) {
+
+  Token* tok = (Token*)malloc(sizeof(Token));
+  tok->type = type;
+
+  if (buf == NULL) {
+    tok->val = keyword_strings[type];
+  }
+  else {
+    tok->val = buf;
+  }
+
+  return tok;
 }
